@@ -1,0 +1,2 @@
+module MicrodepositsHelper
+end

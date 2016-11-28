@@ -1,0 +1,83 @@
+<%= content_for :page_title, 'Verify your bank account' %>
+<div class="container">
+  <div class="row text-center">
+    <div class="col-md-12 topspace text-center">
+      <h1 class="page-header">
+        Verify your bank account
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= render 'layouts/messages' %>
+      <div class="alert alert-warning">
+        <strong>Hint:</strong> You can find the test amounts (32 and 45) <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
+      </div>
+      <div class="alert alert-info">
+        We sent two small depsit amounts to your bank account. Log in to your bank's website or app and enter the amounts you see in the fields below. 
+      </div>
+      <div class="panel panel-default topspace">
+        <div class="panel-body text-left">
+          <form action="/microdeposits" method="POST" id="verify-form">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="errors"></div>
+            <div class="row topspace">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Deposit amount 1</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">$.</span>
+                    <input class="input-lg form-control amount" type="text" name="amount1" placeholder="32">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Deposit amount 2</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">$.</span>
+                    <input class="input-lg form-control amount" type="text" name="amount2" placeholder="45">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row topspace">
+              <div class="col-md-12">
+                <!-- You'll need the customer and bank ID to verify the amounts-->
+                <input type="hidden" name="customer" value="<%= @customer %>">
+                <input type="hidden" name="bank_account" value="<%= @bank_account %>">
+                <button class="btn btn-lg btn-block btn-custom btn-primary" type="submit">
+                  <span class="fa fa-bank"></span> Verify bank account
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function() {
+    $('.btn').click(function(){
+      // Clear any errors
+      $('.errors').removeClass('alert alert-danger').text('');
+
+      // Disable the submit button to prevent repeated clicks
+      $('.btn').prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i> Verifying account...");
+
+      // Some basic form validation
+      if ($.isNumeric($('input[name=amount1], input[name=amount2]').val())){
+        // Submit the form
+        $('#verify-form').submit();
+      }
+      else {
+        // Output an error
+        $('.errors').text('Please enter a valid amount.').addClass('alert alert-danger');
+        $('.input-group').parent('.form-group').addClass('has-error');
+        $('.btn').prop('disabled', false).html("<span class='fa fa-bank'></span> Verify bank account");
+      }
+      return false;
+    });  
+  });
+</script>

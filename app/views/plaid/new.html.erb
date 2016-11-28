@@ -1,0 +1,54 @@
+<%= content_for :page_title, 'Plaid ACH example' %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 topspace text-center">
+      <h1 class="page-header">
+        Log in to connect your bank account with Plaid
+      </h1>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <%= render 'layouts/messages' %>
+          <div class="alert alert-warning">
+            <strong>Hint:</strong> The test credentials for Plaid can be found <a href="https://plaid.com/docs/api/#sandbox">in the Plaid docs</a>.
+          </div>
+        </div>
+      </div>
+      <div class="topspace">
+        <button class="btn btn-custom btn-lg btn-primary" id='linkButton'>
+          <span class="fa fa-bank"></span> Connect your bank account
+        </button>
+      </div>
+      <div class="topspace">
+        Bank account not listed? <%= link_to "Enter your bank details.", new_banks_path %>
+      </div>
+      <form id="ach_form" method="post" action="/plaid">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      </form>
+      <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
+      <script>
+        var linkHandler = Plaid.create({
+          env: 'tartan',
+          clientName: 'Stripe / Plaid Test',
+          key: 'ae48496f63c8ab8be4c3f272cebd8a',
+          product: 'auth',
+          selectAccount: true,
+          onSuccess: function(public_token, metadata) {
+            // Disable the connect button
+            $('#linkButton').prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i> Connecting your account...");
+            // Append the public_token and account_id to the form 
+            $('#ach_form').append($('<input type="hidden" name="public_token" />').val(public_token));
+            $('#ach_form').append($('<input type="hidden" name="account_id" />').val(metadata.account_id));
+
+            // Submit the form
+            $('#ach_form').submit();
+          },
+        });
+
+        // Trigger the Link UI
+        document.getElementById('linkButton').onclick = function() {
+          linkHandler.open();
+        };
+      </script>
+    </div>
+  </div>
+</div>

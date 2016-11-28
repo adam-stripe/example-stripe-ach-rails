@@ -1,0 +1,49 @@
+<%= content_for :page_title, 'ACH Payment Example' %>
+<div class="container">
+  <div class="row text-center">
+    <div class="col-md-12 topspace text-center">
+      <h1 class="page-header">
+        Make a donation with your bank account
+      </h1>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-md-6 col-md-offset-3">
+      <%= render 'layouts/messages' %>
+      <div class="topspace">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form action="/payments" method="post" id="payment-form">
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <div class="form-group text-left">
+                <label>Enter a donation amount below ($.50 - $2000)</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input class="form-control input-lg" type="text" placeholder="20.00" name="amount">
+                </div>
+              </div>
+              <input type="hidden" name="customer" value="<%= @customer.id %>">
+              <input type="hidden" name="bank_account" value="<%= @bank_account.id %>">
+              <button class="btn btn-lg btn-custom btn-primary btn-block submit">
+                <span class="fa fa-bank"></span> Make a donation
+              </button>
+            </form>
+          </div>
+        </div>
+        <p class="text-muted topspace">
+          This will charge your <%= @bank_account.bank_name %> account ending in <%= @bank_account.last4 %>. 
+          <br>
+          <%= link_to "Use a different bank account.", root_path %>
+        </p> 
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function() {
+    $('#payment-form').on('submit', function(){
+      // Disable the submit button to prevent repeated clicks:
+      $('.submit').prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i> Charging your bank account...");
+    });
+  });
+</script>

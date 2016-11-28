@@ -119,7 +119,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.4.1/jquery.payment.js"></script>
 <script>
   // Set your Stripe publishable API key here
-  Stripe.setPublishableKey('<%= ENV['PUBLISHABLE_KEY'] %>');
+  Stripe.setPublishableKey('<%=ENV['PUBLISHABLE_KEY']%>');
 
   $(function() {
     var $form = $('#bank-form');
@@ -172,7 +172,6 @@
   });
 
   function stripeResponseHandler(status, response) {
-    alert("debug1");
     var $form = $('#bank-form');
 
     if (response.error) {
@@ -182,7 +181,6 @@
       $form.find('button').prop('disabled', false).text('Add bank account'); // Re-enable submission
     } 
     else { // Token was created!
-      alert("debug2");
       $form.find('.submit').html("<i class='fa fa-check'></i> Account added");
       
       // Get the token ID:

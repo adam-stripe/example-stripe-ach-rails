@@ -15,7 +15,7 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-body text-left">
-          <form action="/banks" method="POST" id="payment-form">
+          <form action="/banks" method="POST" id="bank-form">
             <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
             <div class="errors"></div>
             <div class="row">
@@ -122,7 +122,7 @@
   Stripe.setPublishableKey('<%= ENV['PUBLISHABLE_KEY'] %>');
 
   $(function() {
-    var $form = $('#payment-form');
+    var $form = $('#bank-form');
     $form.submit(function(event) {
       // Clear any errors
       $form.find('.has-error').removeClass('has-error');
@@ -172,7 +172,8 @@
   });
 
   function stripeResponseHandler(status, response) {
-    var $form = $('#payment-form');
+    alert("debug1");
+    var $form = $('#bank-form');
 
     if (response.error) {
       // Show the errors on the form
@@ -181,6 +182,7 @@
       $form.find('button').prop('disabled', false).text('Add bank account'); // Re-enable submission
     } 
     else { // Token was created!
+      alert("debug2");
       $form.find('.submit').html("<i class='fa fa-check'></i> Account added");
       
       // Get the token ID:

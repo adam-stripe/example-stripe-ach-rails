@@ -72,7 +72,7 @@ class PaymentsController < ApplicationController
       # Retrieve all of this customer's payments from Stripe
       @payments = Stripe::Charge.list(limit: 100, customer: session[:customer])
     else
-      flash[:notice] = 'Please add a bank account to make an ACH payment.'
+      flash[:alert] = 'Please add a bank account to make an ACH payment.'
       redirect_to root_path
     end
   end

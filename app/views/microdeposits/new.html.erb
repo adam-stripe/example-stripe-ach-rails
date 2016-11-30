@@ -10,9 +10,6 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <%= render 'layouts/messages' %>
-      <div class="alert alert-warning">
-        <strong>Hint:</strong> You can find the test amounts (32 and 45) <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
-      </div>
       <div class="alert alert-info">
         We sent two small depsit amounts to your bank account. Log in to your bank's website or app and enter the amounts you see in the fields below. 
       </div>
@@ -53,6 +50,9 @@
             </div>
           </form>
         </div>
+      </div>
+      <div class="topspace text-muted">
+        <strong>Hint:</strong> You can find the test amounts (32 and 45) <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
       </div>
     </div>
   </div>

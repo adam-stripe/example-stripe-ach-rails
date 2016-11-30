@@ -10,6 +10,8 @@ class BanksController < ApplicationController
       # Create Stripe customer with token
       begin
         # If there's not a customer object for the current user, create one
+        # For the purpose of this demo, we're just storing a customer ID in a session.
+        # In a production application, you'll want to store the customer in your database
         if session[:customer].nil?
           customer = Stripe::Customer.create(
             source: token,

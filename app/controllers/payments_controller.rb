@@ -1,5 +1,7 @@
 class PaymentsController < ApplicationController
   def new
+    # For the purpose of this demo, we're just storing a customer ID in a session.
+    # In a production application, you'll want to store the customer in your database
     if session[:customer] && session[:bank_account]
       @customer = Stripe::Customer.retrieve(session[:customer])
       @bank_account = @customer.sources.retrieve(session[:bank_account])

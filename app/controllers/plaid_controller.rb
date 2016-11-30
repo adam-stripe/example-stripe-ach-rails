@@ -21,6 +21,8 @@ class PlaidController < ApplicationController
         )
 
         # Create sessions for the customer and bank account
+        # For the purpose of this demo, we're just storing a customer ID in a session.
+        # In a production application, you'll want to store the customer in your database
         session[:customer] = customer.id
         session[:bank_account] = customer.sources.data.first.id
 

@@ -16,5 +16,6 @@ There are test credentials for Plaid [available in their docs](https://plaid.com
 
 ## Other notes
 
+* This example tries to favor readability and simplicity, but feel free to create a pull request to contribute and suggest improvements.
 * This example just stores a customer ID in a session, but IRL you'll probably want to store this in your database.
 * JavaScript is inlined for easier readability if you're not familiar with navigating Rails and the asset pipeline.

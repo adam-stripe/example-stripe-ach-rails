@@ -72,7 +72,7 @@ class PaymentsController < ApplicationController
   def index
     if session[:customer]
       # Retrieve all of this customer's payments from Stripe
-      @payments = Stripe::Charge.list(limit: 100, customer: session[:customer])
+      @payments = Stripe::Charge.list(limit: 100, paid: true, customer: session[:customer])
     else
       flash[:alert] = 'Please add a bank account to make an ACH payment.'
       redirect_to root_path

@@ -1,7 +1,7 @@
 class MicrodepositsController < ApplicationController
   def new
     # Check for a customer and bank account stored in a session
-    # You could also retrieve this from your database, GET params, etc. 
+    # You could also retrieve this from your database, GET params, etc.
     if session[:customer] && session[:bank_account]
       @customer = session[:customer]
       @bank_account = session[:bank_account]
@@ -32,30 +32,8 @@ class MicrodepositsController < ApplicationController
           # Direct the customer to pay
           flash[:success] = 'Your bank account has been connected.'
           redirect_to new_payment_path
-        rescue Stripe::RateLimitError => e
-          # Too many requests made to the API too quickly
-          flash[:alert] = e.message
-          redirect_to new_microdeposit_path
-        rescue Stripe::InvalidRequestError => e
-          # Invalid parameters were supplied to Stripe's API
-          flash[:alert] = e.message
-          redirect_to new_microdeposit_path
-        rescue Stripe::AuthenticationError => e
-          # Authentication with Stripe's API failed
-          # (maybe you changed API keys recently)
-          flash[:alert] = e.message
-          redirect_to new_microdeposit_path
-        rescue Stripe::APIConnectionError => e
-          # Network communication with Stripe failed
-          flash[:alert] = e.message
-          redirect_to new_microdeposit_path
         rescue Stripe::StripeError => e
-          # Display a very generic error to the user, and maybe send
-          # yourself an email
-          flash[:alert] = e.message
-          redirect_to new_microdeposit_path
-        rescue => e
-          # Something else happened, completely unrelated to Stripe
+          # Too many requests made to the API too quickly
           flash[:alert] = e.message
           redirect_to new_microdeposit_path
         end

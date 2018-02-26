@@ -40,6 +40,7 @@ class PaymentsController < ApplicationController
         # Too many requests made to the API too quickly
         flash[:alert] = e.message
         redirect_to new_payment_path
+      end
     else
       flash[:alert] = 'No customer or bank account provided'
       redirect_to root_path

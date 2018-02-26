@@ -29,23 +29,6 @@ class PlaidController < ApplicationController
         # Direct the customer to pay
         flash[:success] = 'Your bank account has been connected.'
         redirect_to new_payment_path
-      rescue Stripe::RateLimitError => e
-        # Too many requests made to the API too quickly
-        flash[:alert] = e.message
-        render 'create'
-      rescue Stripe::InvalidRequestError => e
-        # Invalid parameters were supplied to Stripe's API
-        flash[:alert] = e.message
-        render 'create'
-      rescue Stripe::AuthenticationError => e
-        # Authentication with Stripe's API failed
-        # (maybe you changed API keys recently)
-        flash[:alert] = e.message
-        render 'create'
-      rescue Stripe::APIConnectionError => e
-        # Network communication with Stripe failed
-        flash[:alert] = e.message
-        render 'create'
       rescue Stripe::StripeError => e
         # Display a very generic error to the user, and maybe send
         # yourself an email

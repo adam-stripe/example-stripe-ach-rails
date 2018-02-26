@@ -1,52 +1,51 @@
 <%= content_for :page_title, 'Your donations' %>
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="page-header text-center">
-        Your donations
+  <div class="row text-center">
+    <div class="col-md-12 topspace-lg">
+      <h1>
+        Your payments
       </h1>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+  <div class="row topspace-lg">
+    <div class="col-md-10 col-md-offset-1">
       <%= render 'layouts/messages' %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-bordered table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Payment ID</th>
-            <th>Amount</th>
-            <th>Payment method</th>
-            <th>Created</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @payments.each do |payment| %>
-            <tr>
-              <td><%= payment.id %></td>
-              <td><%= format_amount(payment.amount) %></td>
-              <td><%= payment.source.bank_name %> ending in <%= payment.source.last4 %></td>
-              <td><%= format_date(payment.created) %></td>
-              <td>
-                <% if payment.refunded %>
-                  <span class="text-danger">
-                    <span class="fa fa-undo"></span> Refunded
-                  </span>
-                <% else %>
-                  <span class="text-success">
-                    <span class="fa fa-check-circle"></span> Paid
-                  </span>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      
+      <div class="panel panel-default box-shadow">
+        <div class="panel-body">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Payment ID</th>
+                <th>Amount</th>
+                <th>Payment method</th>
+                <th>Created</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @payments.each do |payment| %>
+                <tr>
+                  <td><%= payment.id %></td>
+                  <td><%= format_amount(payment.amount) %></td>
+                  <td><%= payment.source.bank_name %> ending in <%= payment.source.last4 %></td>
+                  <td><%= format_date(payment.created) %></td>
+                  <td>
+                    <% if payment.refunded %>
+                      <span class="text-danger">
+                        <span class="fa fa-undo"></span> Refunded
+                      </span>
+                    <% else %>
+                      <span class="text-success">
+                        <span class="fa fa-check-circle"></span> Paid
+                      </span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

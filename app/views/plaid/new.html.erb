@@ -1,25 +1,28 @@
 <%= content_for :page_title, 'Plaid ACH example' %>
 <div class="container">
   <div class="row">
-    <div class="col-md-12 topspace text-center">
-      <h1 class="page-header">
-        Log in to connect your bank account with Plaid
+    <div class="col-md-6 col-md-offset-3 topspace-lg text-center">
+      <h1>
+        Stripe ACH Demo
       </h1>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <%= render 'layouts/messages' %>
-        </div>
-      </div>
-      <div class="topspace">
-        <button class="btn btn-custom btn-lg btn-primary" id='linkButton'>
-          <span class="fa fa-bank"></span> Connect your bank account
+      <h4 class="text-muted">
+        Create test ACH payments
+      </h4>
+      <div class="topspace-lg">
+        <%= render 'layouts/messages' %>
+        <button class="btn btn-custom btn-lg btn-primary btn-block" id='linkButton'>
+          Connect with Plaid
         </button>
       </div>
       <div class="topspace">
-        Bank account not listed? <%= link_to "Enter your bank details.", new_banks_path %>
+        <%= link_to "Enter bank details", new_banks_path, class: "btn btn-custom btn-lg btn-default btn-block" %>
       </div>
-      <div class="topspace text-muted">
-        <strong>Hint:</strong> The test credentials for Plaid can be found <a href="https://plaid.com/docs/api/#sandbox">in the Plaid docs</a>.
+      <div class="topspace-lg lato">
+        <hr>
+        <h4 class="text-muted"><i class="fa fa-info-circle"></i> Plaid test credentials</h4>
+        <strong>username:</strong> user_good
+        <br>
+        <strong>password:</strong> pass_good
       </div>
       <form id="ach_form" method="post" action="/plaid">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -35,7 +38,7 @@
           onSuccess: function(public_token, metadata) {
             // Disable the connect button
             $('#linkButton').prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i> Connecting your account...");
-            // Append the public_token and account_id to the form 
+            // Append the public_token and account_id to the form
             $('#ach_form').append($('<input type="hidden" name="public_token" />').val(public_token));
             $('#ach_form').append($('<input type="hidden" name="account_id" />').val(metadata.account_id));
 

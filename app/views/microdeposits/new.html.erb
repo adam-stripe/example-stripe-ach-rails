@@ -1,19 +1,19 @@
 <%= content_for :page_title, 'Verify your bank account' %>
 <div class="container">
   <div class="row text-center">
-    <div class="col-md-12 topspace text-center">
-      <h1 class="page-header">
+    <div class="col-md-12 topspace-lg text-center">
+      <h1>
         Verify your bank account
       </h1>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3 topspace-lg">
       <%= render 'layouts/messages' %>
       <div class="alert alert-info">
-        We sent two small depsit amounts to your bank account. Log in to your bank's website or app and enter the amounts you see in the fields below. 
+        We sent two small depsit amounts to your bank account. Log in to your bank's website or app and enter the amounts you see in the fields below.
       </div>
-      <div class="panel panel-default topspace">
+      <div class="panel panel-default box-shadow">
         <div class="panel-body text-left">
           <form action="/microdeposits" method="POST" id="verify-form">
             <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -51,8 +51,9 @@
           </form>
         </div>
       </div>
-      <div class="topspace text-muted">
-        <strong>Hint:</strong> You can find the test amounts (32 and 45) <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
+      <div class="topspace-lg text-muted lato text-center">
+        <hr>
+        You can find the test amounts (32 and 45) <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
       </div>
     </div>
   </div>
@@ -78,6 +79,6 @@
         $('.btn').prop('disabled', false).html("<span class='fa fa-bank'></span> Verify bank account");
       }
       return false;
-    });  
+    });
   });
 </script>

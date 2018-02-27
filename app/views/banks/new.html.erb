@@ -1,16 +1,16 @@
 <%= content_for :page_title, 'ACH Payment Example' %>
 <div class="container">
   <div class="row text-center">
-    <div class="col-md-12 topspace text-center">
-      <h1 class="page-header">
+    <div class="col-md-12 topspace-lg text-center">
+      <h1>
         Enter your bank details
       </h1>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3 topspace-lg">
       <%= render 'layouts/messages' %>
-      <div class="panel panel-default">
+      <div class="panel panel-default box-shadow">
         <div class="panel-body text-left">
           <form action="/banks" method="POST" id="bank-form">
             <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -36,7 +36,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Full Legal Name</label>
+                  <label>Full Name</label>
                   <input class="form-control input-lg account_holder_name" id="account_holder_name" type="text" data-stripe="account_holder_name" placeholder="Jane Doe" autocomplete="off">
                 </div>
               </div>
@@ -74,8 +74,14 @@
           </form>
         </div>
       </div>
-      <div class="topspace text-muted">
-        <strong>Hint:</strong> Test routing and account numbers can be found <a href="https://stripe.com/docs/ach#testing-ach">in the ACH docs</a>.
+      <div class="topspace-lg lato text-center">
+        <hr>
+        <h4 class="text-muted"><i class="fa fa-lock"></i> Stripe test bank credentials</h4>
+        <strong>routing number:</strong> 110000000 |
+        <strong>account number:</strong> 000123456789
+        <p class="topspace">
+          Test routing and account numbers can be found <a href="https://stripe.com/docs/ach#testing-ach" target="_blank">in the ACH docs</a>.
+        </p>
       </div>
     </div>
   </div>
@@ -99,7 +105,7 @@
 
       // Request a token from Stripe:
       Stripe.bankAccount.createToken($form, stripeResponseHandler);
-      
+
       // Prevent the form from being submitted:
       return false;
     });
@@ -113,10 +119,10 @@
       $form.find('.errors').text(response.error.message).addClass('alert alert-danger');
       $form.find('.' + response.error.param).parent('.form-group').addClass('has-error');
       $form.find('button').prop('disabled', false).text('Add bank account'); // Re-enable submission
-    } 
+    }
     else { // Token was created!
       $form.find('.submit').html("<i class='fa fa-check'></i> Account added");
-      
+
       // Get the token ID:
       var token = response.id;
 

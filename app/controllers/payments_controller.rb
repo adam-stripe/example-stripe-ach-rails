@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
 
     # Check for a valid donation amount (the minimum charge allowed in USD is $.50)
     unless amount > 50
-      flash[:alert] = 'Please enter a valid donation amount (minimum donation is $.50).'
+      flash[:alert] = 'Please enter a valid payment amount (minimum donation is $.50).'
       redirect_to new_payment_path and return
     end
 
@@ -34,7 +34,7 @@ class PaymentsController < ApplicationController
         )
 
         # Let the customer know the payment was successful
-        flash[:success] = "Thanks for your donation! Your transaction ID is #{charge.id}."
+        flash[:success] = "Thanks for your payment! Your transaction ID is #{charge.id}."
         redirect_to payments_path
       rescue Stripe::StripeError => e
         # Too many requests made to the API too quickly

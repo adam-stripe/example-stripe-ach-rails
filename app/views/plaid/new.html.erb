@@ -10,7 +10,7 @@
       </h4>
       <div class="topspace-lg">
         <%= render 'layouts/messages' %>
-        <button class="btn btn-custom btn-lg btn-primary btn-block" id='linkButton'>
+        <button class="btn btn-custom btn-lg btn-primary btn-block" id='link-button'>
           Connect with Plaid
         </button>
       </div>
@@ -19,39 +19,51 @@
       </div>
       <div class="topspace-lg lato">
         <hr>
-        <h4 class="text-muted"><i class="fa fa-info-circle"></i> Plaid test credentials</h4>
+        <h4 class="text-muted"><i class="fa fa-lock"></i> Plaid test credentials</h4>
         <strong>username:</strong> user_good
         <br>
         <strong>password:</strong> pass_good
       </div>
-      <form id="ach_form" method="post" action="/plaid">
+      <form id="ach-form" method="post" action="/plaid">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <input type="hidden" name="public_token" id="public-token">
+        <input type="hidden" name="account_id" id="account-id">
       </form>
-      <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
-      <script>
-        var linkHandler = Plaid.create({
-          env: 'tartan',
-          clientName: 'Stripe / Plaid Test',
-          key: 'ae48496f63c8ab8be4c3f272cebd8a',
-          product: 'auth',
-          selectAccount: true,
-          onSuccess: function(public_token, metadata) {
-            // Disable the connect button
-            $('#linkButton').prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i> Connecting your account...");
-            // Append the public_token and account_id to the form
-            $('#ach_form').append($('<input type="hidden" name="public_token" />').val(public_token));
-            $('#ach_form').append($('<input type="hidden" name="account_id" />').val(metadata.account_id));
-
-            // Submit the form
-            $('#ach_form').submit();
-          },
-        });
-
-        // Trigger the Link UI
-        document.getElementById('linkButton').onclick = function() {
-          linkHandler.open();
-        };
-      </script>
     </div>
   </div>
 </div>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script>
+  var linkHandler = Plaid.create({
+    env: 'sandbox',
+    apiVersion: 'v2',
+    clientName: 'Stripe/Plaid Test',
+    key: '<%= ENV['PLAID_PUBLIC_KEY']%>',
+    product: ['auth'],
+    selectAccount: true,
+    onSuccess: function(public_token, metadata) {
+      // Disable the button
+      var linkButton = document.getElementById('link-button');
+      linkButton.disabled = true;
+      linkButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Connecting your account..."
+
+      // Append the token and account ID to the form
+      document.getElementById('public-token').value = ''+public_token;
+      document.getElementById('account-id').value = ''+metadata.account_id;
+
+      // Submit the form
+      document.getElementById('ach-form').submit();
+    },
+    onExit: function(err, metadata) {
+      // The user exited the Link flow.
+      if (err != null) {
+        alert("There was an error connecting to Plaid. Please refresh the page and try again.");
+      }
+    },
+  });
+
+  // Trigger the Link UI
+  document.getElementById('link-button').onclick = function() {
+    linkHandler.open();
+  };
+</script>

@@ -17,6 +17,8 @@
       <div class="topspace">
         <%= link_to "Enter bank details", new_banks_path, class: "btn btn-custom btn-lg btn-default btn-block" %>
       </div>
+      <div class="topspace" id="error-message">
+      </div>
       <div class="topspace-lg lato">
         <hr>
         <h4 class="text-muted"><i class="fa fa-lock"></i> Plaid test credentials</h4>
@@ -45,7 +47,7 @@
       // Disable the button
       var linkButton = document.getElementById('link-button');
       linkButton.disabled = true;
-      linkButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Connecting your account..."
+      linkButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Connecting your account...";
 
       // Append the token and account ID to the form
       document.getElementById('public-token').value = ''+public_token;
@@ -57,7 +59,7 @@
     onExit: function(err, metadata) {
       // The user exited the Link flow.
       if (err != null) {
-        alert("There was an error connecting to Plaid. Please refresh the page and try again.");
+        document.getElementById('error-message').innerHTML = "<div class='alert alert-danger'>"+err.display_message+"</div>"
       }
     },
   });
